@@ -249,14 +249,8 @@ add_paths_to_joinrel(PlannerInfo *root,
 	 * joins, because there may be no other alternative.
 	 */
 	if (enable_hashjoin || jointype == JOIN_FULL)
-<<<<<<< HEAD
-	//if (enable_mergejoin || jointype == JOIN_FULL)
-=======
->>>>>>> parent of 4c54741... Merge Join instead of Hash Join
 		hash_inner_and_outer(root, joinrel, outerrel, innerrel,
 							 jointype, &extra);
-		//sort_inner_and_outer(root, joinrel, outerrel, innerrel,
-		//					 jointype, &extra);
 
 	/*
 	 * 5. If inner and outer relations are foreign tables (or joins) belonging
