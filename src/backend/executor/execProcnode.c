@@ -260,19 +260,16 @@ ExecInitNode(Plan *node, EState *estate, int eflags)
 			 * join nodes
 			 */
 		case T_NestLoop:
-			elog(NOTICE, "Nested Join\n");
 			result = (PlanState *) ExecInitNestLoop((NestLoop *) node,
 													estate, eflags);
 			break;
 
 		case T_MergeJoin:
-			elog(NOTICE, "Merge Join\n");
 			result = (PlanState *) ExecInitMergeJoin((MergeJoin *) node,
 													 estate, eflags);
 			break;
 
 		case T_HashJoin:
-			elog(NOTICE, "Hash Join\n");
 			result = (PlanState *) ExecInitHashJoin((HashJoin *) node,
 													estate, eflags);
 			break;
