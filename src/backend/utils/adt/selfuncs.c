@@ -6398,6 +6398,7 @@ add_predicate_to_quals(IndexOptInfo *index, List *indexQuals)
 Datum
 btcostestimate(PG_FUNCTION_ARGS)
 {
+	elog(NOTICE, "Estimating cost...\n");
 	PlannerInfo *root = (PlannerInfo *) PG_GETARG_POINTER(0);
 	IndexPath  *path = (IndexPath *) PG_GETARG_POINTER(1);
 	double		loop_count = PG_GETARG_FLOAT8(2);
