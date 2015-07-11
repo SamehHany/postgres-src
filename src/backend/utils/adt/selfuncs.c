@@ -6394,6 +6394,24 @@ add_predicate_to_quals(IndexOptInfo *index, List *indexQuals)
 	return list_concat(predExtraQuals, indexQuals);
 }
 
+Datum
+hypcostestimate(PG_FUNCTION_ARGS)
+{
+	elog(NOTICE, "Estimating hypothetical cost...\n");
+	PlannerInfo *root = (PlannerInfo *) PG_GETARG_POINTER(0);
+	IndexPath  *path = (IndexPath *) PG_GETARG_POINTER(1);
+	double		loop_count = PG_GETARG_FLOAT8(2);
+	Cost	   *indexStartupCost = (Cost *) PG_GETARG_POINTER(3);
+	Cost	   *indexTotalCost = (Cost *) PG_GETARG_POINTER(4);
+	Selectivity *indexSelectivity = (Selectivity *) PG_GETARG_POINTER(5);
+	double	   *indexCorrelation = (double *) PG_GETARG_POINTER(6);
+	
+	
+	*indexStartupCost = 0;
+	*indexTotalCost = 0;
+	*indexSelectivity = 0;
+	*indexCorrelation = 0;
+}
 
 Datum
 btcostestimate(PG_FUNCTION_ARGS)

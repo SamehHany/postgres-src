@@ -6569,7 +6569,7 @@ defacl_privilege_target:
  * willing to make TABLESPACE a fully reserved word.
  *****************************************************************************/
 
-IndexStmt:	CREATE HYP  INDEX  opt_index_name
+IndexStmt:		CREATE HYP  INDEX  opt_index_name
 			ON qualified_name access_method_clause '(' index_params ')'
 			opt_reloptions OptTableSpace where_clause
 				{
