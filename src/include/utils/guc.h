@@ -102,6 +102,9 @@ typedef enum
  *
  * NB: see GucSource_Names in guc.c if you change this.
  */
+ 
+ extern bool enable_hypindex;
+ 
 typedef enum
 {
 	PGC_S_DEFAULT,				/* hard-wired default ("boot_val") */

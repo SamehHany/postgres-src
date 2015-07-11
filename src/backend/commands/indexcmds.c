@@ -51,7 +51,7 @@
 #include "utils/syscache.h"
 #include "utils/tqual.h"
 
-
+bool enable_hypindex;
 /* non-export function prototypes */
 static void CheckPredicate(Expr *predicate);
 static void ComputeIndexAttrs(IndexInfo *indexInfo,
@@ -610,9 +610,11 @@ DefineIndex(Oid relationId,
 					 coloptions, reloptions, stmt->primary,
 					 stmt->isconstraint, stmt->deferrable, stmt->initdeferred,
 					 allowSystemTableMods,
-					 skip_build || stmt->concurrent,
+					 skip_build || stmt->concurrent || stmt->hyp || enable_hypindex,
 					 stmt->concurrent, !check_rights,
 					 stmt->if_not_exists);
+
+	elog(NOTICE, "stmt->hyp = %s", stmt->hyp? "TRUE" : "FALSE");
 
 	ObjectAddressSet(address, RelationRelationId, indexRelationId);
 

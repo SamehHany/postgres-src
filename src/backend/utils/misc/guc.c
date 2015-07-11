@@ -868,6 +868,16 @@ static struct config_bool ConfigureNamesBool[] =
 		true,
 		NULL, NULL, NULL
 	},
+	
+	{
+		{"enable_hypindex", PGC_USERSET, DEVELOPER_OPTIONS,
+			gettext_noop("Enable Hyp index"),
+			NULL
+		},
+		&enable_hypindex,
+		true,
+		NULL, NULL, NULL
+	},
 	{
 		{"geqo", PGC_USERSET, QUERY_TUNING_GEQO,
 			gettext_noop("Enables genetic query optimization."),

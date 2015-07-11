@@ -589,7 +589,7 @@ static Node *makeRecursiveViewSelect(char *relname, List *aliases, Node *query);
 
 	GLOBAL GRANT GRANTED GREATEST GROUP_P GROUPING
 
-	HANDLER HAVING HEADER_P HOLD HOUR_P
+	HANDLER HAVING HEADER_P HOLD HOUR_P HYP
 
 	IDENTITY_P IF_P ILIKE IMMEDIATE IMMUTABLE IMPLICIT_P IMPORT_P IN_P
 	INCLUDING INCREMENT INDEX INDEXES INHERIT INHERITS INITIALLY INLINE_P
@@ -6569,11 +6569,41 @@ defacl_privilege_target:
  * willing to make TABLESPACE a fully reserved word.
  *****************************************************************************/
 
-IndexStmt:	CREATE opt_unique INDEX opt_concurrently opt_index_name
+IndexStmt:		CREATE HYP  INDEX  opt_index_name
 			ON qualified_name access_method_clause '(' index_params ')'
 			opt_reloptions OptTableSpace where_clause
 				{
 					IndexStmt *n = makeNode(IndexStmt);
+					n->unique = false;
+					n->hyp = true;
+					elog(NOTICE, "HYP\n");
+					n->concurrent = false;
+					n->idxname = $4;
+					n->relation = $6;
+					n->accessMethod = $7;
+					n->indexParams = $9;
+					n->options = $11;
+					n->tableSpace = $12;
+					n->whereClause = $13;
+					n->excludeOpNames = NIL;
+					n->idxcomment = NULL;
+					n->indexOid = InvalidOid;
+					n->oldNode = InvalidOid;
+					n->primary = false;
+					n->isconstraint = false;
+					n->deferrable = false;
+					n->initdeferred = false;
+					n->transformed = false;
+					n->if_not_exists = false;
+					$$ = (Node *)n;
+				}
+			| 
+			CREATE opt_unique  INDEX opt_concurrently opt_index_name
+			ON qualified_name access_method_clause '(' index_params ')'
+			opt_reloptions OptTableSpace where_clause
+				{
+					IndexStmt *n = makeNode(IndexStmt);
+					n->hyp = false;
 					n->unique = $2;
 					n->concurrent = $4;
 					n->idxname = $5;
@@ -6600,6 +6630,7 @@ IndexStmt:	CREATE opt_unique INDEX opt_concurrently opt_index_name
 			opt_reloptions OptTableSpace where_clause
 				{
 					IndexStmt *n = makeNode(IndexStmt);
+					n->hyp = false;
 					n->unique = $2;
 					n->concurrent = $4;
 					n->idxname = $8;
@@ -13990,6 +14021,7 @@ reserved_keyword:
 			| GRANT
 			| GROUP_P
 			| HAVING
+			| HYP	
 			| IN_P
 			| INITIALLY
 			| INTERSECT
